@@ -130,29 +130,17 @@
 			aria-pressed={isRecording}
 		>
 			{#if isRecording}
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="currentColor"
+				<img
+					src="/src/lib/assets/mic-on.svg"
+					alt="麥克風啟動"
 					style="width: 1.5rem; height: 1.5rem;"
-				>
-					<path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
-					<path
-						d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.041h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.041a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z"
-					/>
-				</svg>
+				/>
 			{:else}
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					fill="currentColor"
+				<img
+					src="/src/lib/assets/mic-off.svg"
+					alt="麥克風靜音"
 					style="width: 1.5rem; height: 1.5rem;"
-				>
-					<path
-						d="M12 18.75a6 6 0 0 0 6-6v-1.5a.75.75 0 0 0-1.5 0v1.5a4.5 4.5 0 0 1-9 0V12.75a.75.75 0 0 0-1.5 0v1.5a6 6 0 0 0 6 6Z"
-					/>
-					<path d="M12 15a3 3 0 0 1-3-3V4.5a3 3 0 0 1 6 0V12a3 3 0 0 1-3 3Z" />
-				</svg>
+				/>
 			{/if}
 		</button>
 		<input
@@ -171,16 +159,7 @@
 			class="btn btn-primary"
 			aria-label="發送訊息"
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				fill="currentColor"
-				style="width: 1.5rem; height: 1.5rem;"
-			>
-				<path
-					d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"
-				/>
-			</svg>
+			<img src="/src/lib/assets/send.svg" alt="發送" style="width: 1.5rem; height: 1.5rem;" />
 		</button>
 	</div>
 	{#if speechError}
