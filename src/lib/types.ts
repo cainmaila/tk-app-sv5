@@ -10,13 +10,13 @@ export interface GroundingSource {
 	title: string;
 }
 
-// This is a simplified representation of what we might get from groundingMetadata.
-// The actual type from @google/genai is GroundingAttribution, which can have more fields.
-// We'll map to GroundingSource for our app's use.
+// 這是一個簡化版的 groundingMetadata 回傳資料型別。
+// @google/genai 套件中的實際型別為 GroundingAttribution，可能包含更多欄位。
+// 我們會將其對應到 GroundingSource 以供本應用程式使用。
 export interface RawGroundingChunk {
 	web?: {
 		uri: string;
 		title: string;
 	};
-	// other types like 'retrievedContext' could exist
+	// 其他類型，例如 'retrievedContext' 也可能存在
 }
