@@ -1,3 +1,8 @@
+<!--
+	@component SourcePill
+	@description 來源標籤，顯示單一來源的標題和連結。
+	@props {GroundingSource} source - 來源物件，包含 title 和 uri。
+-->
 <script lang="ts">
 	import type { GroundingSource } from '$lib/types';
 

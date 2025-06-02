@@ -1,3 +1,15 @@
+<!--
+@component
+@name UserInput
+@component UserInput
+@description 使用者輸入區塊，包含文字輸入框和語音輸入按鈕。
+@props {string} value - 當前輸入的文字。
+@props {function} onChange - 當輸入變更時的回調函數。
+@props {function} onSubmit - 當使用者提交輸入時的回調函數。
+@props {boolean} isLoading - 是否正在載入中，顯示載入旋轉器。
+@props {boolean} isSpeechSupported - 是否支援語音輸入功能。
+@description 使用者輸入區塊，包含文字輸入框和語音輸入按鈕。
+-->
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 

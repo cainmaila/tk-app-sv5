@@ -1,3 +1,8 @@
+<!--
+@component LoadingSpinner
+@description 載入中旋轉器，顯示在等待回應時。
+@props { 'size': 'small' | 'medium' | 'large' } - 旋轉器的大小。
+-->
 <script lang="ts">
 	interface Props {
 		size?: 'small' | 'medium' | 'large';
