@@ -4,6 +4,15 @@ export interface ChatSession {
 	sessionId: string;
 }
 
+/**
+ * 初始化聊天會話的 API。
+ *
+ * 此函式會向 `/api/chat/init` 發送 POST 請求以建立新的聊天會話，
+ * 並回傳包含 sessionId 的 ChatSession 物件。
+ *
+ * @throws 當伺服器回應非 2xx 狀態時，會擲出錯誤，錯誤訊息來自伺服器回應或預設為「初始化聊天失敗」。
+ * @returns 包含 sessionId 的 Promise<ChatSession>。
+ */
 export const initializeChatSessionAPI = async (): Promise<ChatSession> => {
 	const response = await fetch('/api/chat/init', {
 		method: 'POST',
@@ -21,6 +30,20 @@ export const initializeChatSessionAPI = async (): Promise<ChatSession> => {
 	return { sessionId: data.sessionId };
 };
 
+/**
+ * 向 Tokyo Expert API 發送問題並以串流方式接收回應。
+ *
+ * 此函式會將問題傳送至 `/api/chat/send`，並透過 Server-Sent Events (SSE) 逐步接收回應內容。
+ * 回應內容會以 chunk 方式傳遞給 `onChunk` 回呼，來源資料會在 `onComplete` 回呼中傳遞。
+ * 若發生錯誤，會呼叫 `onError` 回呼。
+ *
+ * @param session 聊天會話資訊，包含 sessionId。
+ * @param question 使用者要詢問的問題。
+ * @param onChunk 當收到文字片段時呼叫的回呼函式。
+ * @param onComplete 當串流完成時呼叫的回呼函式，並傳遞來源資料（若有）。
+ * @param onError 發生錯誤時呼叫的回呼函式。
+ * @returns 無回傳值（Promise<void>）。
+ */
 export const askTokyoExpertAPI = async (
 	session: ChatSession,
 	question: string,
