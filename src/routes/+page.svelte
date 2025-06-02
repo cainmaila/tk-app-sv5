@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { browser } from '$app/environment';
-	import type { Chat } from '@google/genai';
 	import type { ChatMessage } from '$lib/types';
-	import { initializeChatSession, askTokyoExpert } from '$lib/services/geminiService';
+	import {
+		initializeChatSessionAPI,
+		askTokyoExpertAPI,
+		type ChatSession
+	} from '$lib/services/chatAPI';
 	import UserInput from '$lib/components/UserInput.svelte';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { APP_TITLE } from '$lib/constants';
 	import '../app.css';
 
-	let chatSession: Chat | null = $state(null);
+	let chatSession: ChatSession | null = $state(null);
 	let messages: ChatMessage[] = $state([]);
 	let currentQuestion = $state('');
 	let isLoading = $state(false);
@@ -25,17 +28,8 @@
 			error = null;
 			isLoading = true;
 
-			// 在SvelteKit中，環境變數在客戶端需要以PUBLIC_開頭
-			const apiKey = import.meta.env.VITE_API_KEY || import.meta.env.PUBLIC_API_KEY;
-
-			if (!apiKey) {
-				console.error('API 金鑰未設定。請設定 VITE_API_KEY 或 PUBLIC_API_KEY 環境變數。');
-				error = '無法初始化聊天服務：API 金鑰遺失。請聯繫開發者。';
-				isLoading = false;
-				return;
-			}
-
-			const session = await initializeChatSession(apiKey);
+			// 使用新的 API 初始化聊天
+			const session = await initializeChatSessionAPI();
 			chatSession = session;
 			messages = [
 				{
@@ -89,7 +83,7 @@
 		error = null;
 
 		try {
-			await askTokyoExpert(
+			await askTokyoExpertAPI(
 				chatSession,
 				questionToAsk,
 				(textChunk) => {
@@ -107,7 +101,7 @@
 					currentAiMessageId = null;
 				},
 				(streamError) => {
-					// onError callback from askTokyoExpert (errors during stream)
+					// onError callback from askTokyoExpertAPI (errors during stream)
 					console.error('Streaming error reported to App:', streamError);
 					error = streamError.message; // Show global error
 
