@@ -153,7 +153,15 @@
 	<header
 		style="background: linear-gradient(to right, #0ea5e9, #4f46e5); color: white; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"
 	>
-		<h1 class="text-2xl font-bold text-center">{APP_TITLE}</h1>
+		<div class="flex items-center justify-between mb-2">
+			<h1 class="text-2xl font-bold">{APP_TITLE}</h1>
+			<a
+				href="/summary"
+				class="bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded-lg text-sm transition-colors backdrop-blur-sm"
+			>
+				📋 行程摘要
+			</a>
+		</div>
 		<p class="text-sm text-center" style="color: #bae6fd;">專為台灣旅客設計的東京旅遊AI夥伴</p>
 	</header>
 
