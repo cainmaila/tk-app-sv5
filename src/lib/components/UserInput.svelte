@@ -12,6 +12,9 @@
 -->
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
+	import micOnIcon from '$lib/assets/mic-on.svg';
+	import micOffIcon from '$lib/assets/mic-off.svg';
+	import sendIcon from '$lib/assets/send.svg';
 
 	interface Props {
 		value: string;
@@ -130,17 +133,9 @@
 			aria-pressed={isRecording}
 		>
 			{#if isRecording}
-				<img
-					src="/src/lib/assets/mic-on.svg"
-					alt="麥克風啟動"
-					style="width: 1.5rem; height: 1.5rem;"
-				/>
+				<img src={micOnIcon} alt="麥克風啟動" style="width: 1.5rem; height: 1.5rem;" />
 			{:else}
-				<img
-					src="/src/lib/assets/mic-off.svg"
-					alt="麥克風靜音"
-					style="width: 1.5rem; height: 1.5rem;"
-				/>
+				<img src={micOffIcon} alt="麥克風靜音" style="width: 1.5rem; height: 1.5rem;" />
 			{/if}
 		</button>
 		<input
@@ -159,7 +154,7 @@
 			class="btn btn-primary"
 			aria-label="發送訊息"
 		>
-			<img src="/src/lib/assets/send.svg" alt="發送" style="width: 1.5rem; height: 1.5rem;" />
+			<img src={sendIcon} alt="發送" style="width: 1.5rem; height: 1.5rem;" />
 		</button>
 	</div>
 	{#if speechError}
