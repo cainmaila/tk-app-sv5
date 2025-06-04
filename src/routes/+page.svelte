@@ -5,7 +5,9 @@
 	import {
 		initializeChatSessionAPI,
 		askTokyoExpertAPI,
-		type ChatSession
+		getJourneySummaryAPI,
+		type ChatSession,
+		type JourneySummary
 	} from '$lib/services/chatAPI';
 	import UserInput from '$lib/components/UserInput.svelte';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
@@ -20,6 +22,7 @@
 	let error: string | null = $state(null);
 	let chatContainer: HTMLElement;
 	let currentAiMessageId: string | null = $state(null);
+	let journeySummary: JourneySummary | null = $state(null);
 
 	onMount(async () => {
 		if (!browser) return;
@@ -28,14 +31,50 @@
 			error = null;
 			isLoading = true;
 
-			// 使用新的 API 初始化聊天
-			const session = await initializeChatSessionAPI();
+			// 並行獲取聊天會話和行程摘要
+			const [session, summary] = await Promise.all([
+				initializeChatSessionAPI(),
+				getJourneySummaryAPI()
+			]);
+
 			chatSession = session;
+			journeySummary = summary;
+
+			// 根據行程摘要生成個人化的歡迎訊息
+			let welcomeMessage = '您好！我是您的東京旅遊小助手。';
+
+			if (journeySummary) {
+				welcomeMessage += `\n\n我已經了解您的行程安排：`;
+
+				if (journeySummary.dates.length > 0) {
+					welcomeMessage += `\n📅 旅遊日期：${journeySummary.dates[0]} 到 ${journeySummary.dates[journeySummary.dates.length - 1]}`;
+				}
+
+				if (journeySummary.hotel) {
+					welcomeMessage += `\n🏨 住宿：${journeySummary.hotel}`;
+				}
+
+				if (journeySummary.dailyPlans.length > 0) {
+					welcomeMessage += `\n📋 已規劃 ${journeySummary.dailyPlans.length} 天的行程`;
+				}
+
+				welcomeMessage += `\n\n我可以根據您的行程安排為您提供：`;
+				welcomeMessage += `\n• 景點間的交通建議`;
+				welcomeMessage += `\n• 附近美食推薦`;
+				welcomeMessage += `\n• 行程優化建議`;
+				welcomeMessage += `\n• 購物和文化體驗推薦`;
+			} else {
+				welcomeMessage +=
+					'請問有什麼可以為您服務的嗎？例如：推薦新宿的美食、查詢明天淺草寺的開放時間，或是幫您規劃一日遊行程。';
+			}
+
+			welcomeMessage += `\n\n請隨時告訴我您想了解什麼！`;
+
 			messages = [
 				{
 					id: Date.now().toString(),
 					role: 'model',
-					text: '您好！我是您的東京旅遊小助手。請問有什麼可以為您服務的嗎？例如：推薦新宿的美食、查詢明天淺草寺的開放時間，或是幫您規劃一日遊行程。'
+					text: welcomeMessage
 				}
 			];
 		} catch (e) {

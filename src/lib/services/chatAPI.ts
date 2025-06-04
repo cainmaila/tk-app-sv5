@@ -4,6 +4,17 @@ export interface ChatSession {
 	sessionId: string;
 }
 
+// 行程摘要介面
+export interface JourneySummary {
+	dates: string[];
+	hotel: string;
+	flights: {
+		departure: string;
+		return: string;
+	};
+	dailyPlans: { day: string; activities: string[] }[];
+}
+
 /**
  * 初始化聊天會話的 API。
  *
@@ -122,5 +133,40 @@ export const askTokyoExpertAPI = async (
 	} catch (error) {
 		console.error('API 呼叫錯誤:', error);
 		onError(error instanceof Error ? error : new Error('未知錯誤'));
+	}
+};
+
+/**
+ * 獲取行程摘要的 API。
+ *
+ * 此函式會向 `/api/journey/summary` 發送 GET 請求以獲取結構化的行程摘要資訊。
+ *
+ * @throws 當伺服器回應非 2xx 狀態時，會擲出錯誤。
+ * @returns 包含行程摘要的 Promise<JourneySummary>。
+ */
+export const getJourneySummaryAPI = async (): Promise<JourneySummary | null> => {
+	try {
+		const response = await fetch('/api/journey/summary', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (!response.ok) {
+			console.warn('無法獲取行程摘要:', response.status);
+			return null;
+		}
+
+		const data = await response.json();
+		if (data.success) {
+			return data.summary;
+		} else {
+			console.warn('行程摘要 API 回傳失敗:', data.message);
+			return null;
+		}
+	} catch (error) {
+		console.warn('獲取行程摘要時發生錯誤:', error);
+		return null;
 	}
 };
