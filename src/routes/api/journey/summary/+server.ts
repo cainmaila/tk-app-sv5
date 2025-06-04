@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { readFileSync } from 'fs';
 import path from 'path';
+import journey from '$lib/assets/journey.txt?raw';
 
 // 提取行程重點資訊
 function parseJourneyInfo(journeyContent: string) {
@@ -84,10 +85,7 @@ function parseJourneyInfo(journeyContent: string) {
 
 export const GET: RequestHandler = async () => {
 	try {
-		const journeyPath = path.join(process.cwd(), 'src', 'lib', 'assets', 'journey.txt');
-		const journeyContent = readFileSync(journeyPath, 'utf-8');
-
-		const summary = parseJourneyInfo(journeyContent);
+		const summary = parseJourneyInfo(journey);
 
 		return json({
 			success: true,
