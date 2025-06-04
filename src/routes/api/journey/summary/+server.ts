@@ -1,7 +1,5 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-import { readFileSync } from 'fs';
-import path from 'path';
 import journey from '$lib/assets/journey.txt?raw';
 
 // 提取行程重點資訊
