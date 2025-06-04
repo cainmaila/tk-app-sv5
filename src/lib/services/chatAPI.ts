@@ -146,6 +146,8 @@ export const askTokyoExpertAPI = async (
  */
 export const getJourneySummaryAPI = async (): Promise<JourneySummary | null> => {
 	try {
+		console.log('開始獲取行程摘要...'); // 添加調試信息
+
 		const response = await fetch('/api/journey/summary', {
 			method: 'GET',
 			headers: {
@@ -153,20 +155,25 @@ export const getJourneySummaryAPI = async (): Promise<JourneySummary | null> => 
 			}
 		});
 
+		console.log('API 響應狀態:', response.status, response.statusText); // 添加調試信息
+
 		if (!response.ok) {
 			console.warn('無法獲取行程摘要:', response.status);
 			return null;
 		}
 
 		const data = await response.json();
+		console.log('API 響應數據:', data); // 添加調試信息
+
 		if (data.success) {
+			console.log('成功解析行程摘要:', data.summary); // 添加調試信息
 			return data.summary;
 		} else {
 			console.warn('行程摘要 API 回傳失敗:', data.message);
 			return null;
 		}
 	} catch (error) {
-		console.warn('獲取行程摘要時發生錯誤:', error);
+		console.error('獲取行程摘要時發生錯誤:', error); // 改為 error 級別
 		return null;
 	}
 };
